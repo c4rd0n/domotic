@@ -25,12 +25,13 @@
 
 print('Exécution du script script_time_tmp_usage.lua')
 
-local handle = io.popen('df | grep "/var/tmp" | sed -e \'s/.*\\([0-9]\\+\\)%.*/\\1/\'')
+local handle = io.popen('df | grep "/var/tmp" | sed -e \'s/.*\\s\\([0-9]\\+\\)%.*/\\1/\'')
 local pourcentage = handle:read("*a")
 handle:close()
 
 if 90 < tonumber(pourcentage) then
 	os.execute('sudo rm /var/tmp/domoticz.txt')
+	os.execute('sudo service domoticz.sh restart')
 end
 
 commandArray = {}
