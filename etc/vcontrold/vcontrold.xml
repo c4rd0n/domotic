@@ -11,9 +11,9 @@
 		<allow ip='192.168.1.0/24'/>
 	</net>
 	<logging>
-		<file>/tmp/vcontrold.log</file>
+		<file>/var/tmp/vcontrold.log</file>
 		<syslog>n</syslog>
-		<debug>n</debug>
+		<debug>y</debug>
 	</logging>
 	<device ID="2098"/>
      </config>

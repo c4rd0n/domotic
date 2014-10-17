@@ -30,7 +30,7 @@ local pourcentage = handle:read("*a")
 handle:close()
 
 if 90 < tonumber(pourcentage) then
-	os.execute('sudo rm /var/tmp/domoticz.txt')
+	os.execute('sudo rm /var/tmp/*')
 	os.execute('sudo service domoticz.sh restart')
 end
 
