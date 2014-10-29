@@ -3,6 +3,13 @@
 	<device ID="2098" name="V200KW2" protocol="KW2"/>
   </devices>
   <commands> 
+         <command name='getDevice' protocmd='getaddr'>
+             <addr>00F8</addr>
+             <len>2</len>
+             <unit>DT</unit>
+             <error>05 05</error>
+             <description>identifiant de la régulation</description>
+        </command>
 	<command name='getTempExt' protocmd='getaddr'>
 	     <addr>5525</addr>
 	     <len>2</len>
