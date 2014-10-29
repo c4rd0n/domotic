@@ -225,6 +225,15 @@
            <enum bytes='01' text='drehzahlgeregelt'/>
            <enum text='UNKNOWN'/>
         </unit>
+        <unit name='Mode de fonctionnement'>
+           <abbrev>MF</abbrev>
+           <type>enum</type>
+           <enum bytes='00' text='veille (permanente)'/>
+           <enum bytes='01' text='opération rouge (timer)'/>
+           <enum bytes='02' text='opération normale (timer)'/>
+           <enum bytes='03' text='opération normale (permanente)'/>
+           <enum text='UNKNOWN'/>
+        </unit>
   </units>
   <protocols>
       <protocol name='KW2'>
