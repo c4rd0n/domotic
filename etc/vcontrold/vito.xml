@@ -3,6 +3,13 @@
 	<device ID="2098" name="V200KW2" protocol="KW2"/>
   </devices>
   <commands> 
+         <command name='getDevice' protocmd='getaddr'>
+             <addr>00F8</addr>
+             <len>2</len>
+             <unit>DT</unit>
+             <error>05 05</error>
+             <description>identifiant de la régulation</description>
+        </command>
 	<command name='getTempExt' protocmd='getaddr'>
 	     <addr>5525</addr>
 	     <len>2</len>
@@ -17,6 +24,48 @@
 	     <error>05 05</error>
 	     <description>Température extérieure en degrés Celsius</description>
 	</command>
+        <command name='getTempDepCC2' protocmd='getaddr'>
+             <addr>3900</addr>
+             <len>2</len>
+             <unit>UT</unit>
+             <error>05 05</error>
+             <description>Température de départ du circuit de chauffage 2</description>
+        </command>
+        <command name='getTempIntCC2' protocmd='getaddr'>
+             <addr>0898</addr>
+             <len>2</len>
+             <unit>UT</unit>
+             <error>05 05</error>
+             <description>Température intérieure pour le circuit de chauffage 2</description>
+        </command>
+        <command name='getModeCC2' protocmd='getaddr'>
+             <addr>3500</addr>
+             <len>1</len>
+             <unit>MF</unit>
+             <error>05 05</error>
+             <description>Mode de fonctionnement du circuit de chauffage 2</description>
+        </command>
+        <command name='getEcoModeCC2' protocmd='getaddr'>
+             <addr>3331</addr>
+             <len>1</len>
+             <unit>RT</unit>
+             <error>05 05</error>
+             <description>Statut du mode économique du circuit de chauffage 2</description>
+        </command>
+        <command name='getRecModeCC2' protocmd='getaddr'>
+             <addr>3330</addr>
+             <len>1</len>
+             <unit>RT</unit>
+             <error>05 05</error>
+             <description>Statut du mode réception du circuit de chauffage 2</description>
+        </command>
+        <command name='getTempECS' protocmd='getaddr'>
+             <addr>0812</addr>
+             <len>2</len>
+             <unit>UT</unit>
+             <error>05 05</error>
+             <description>Température eau chaude sanitaire</description>
+        </command>
 	<command name='getTempFume' protocmd='getaddr'>
 	     <addr>0808</addr>
 	     <len>2</len>
@@ -63,6 +112,12 @@
              <len>4</len>
              <unit>CS</unit>
              <description>Temps d'activation du bruleur 2</description>
+        </command>
+        <command name='getSystemTime' protocmd='getaddr'>
+             <addr>088E</addr>
+             <len>8</len>
+             <unit>TI</unit>
+             <description>Date system de la chaudière</description>
         </command>
     </commands>
 </vito>

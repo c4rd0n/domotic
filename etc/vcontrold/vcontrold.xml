@@ -77,7 +77,7 @@
 	   <abbrev>CS</abbrev>
 	   <calc get='V/3600' set='V*3600'/>
 	   <type>uint</type>
-	   <entity>Stunden</entity>
+	   <entity>Heures</entity>
 	</unit>
 	<unit name='CycleTime'>
 	   <abbrev>CT</abbrev>
@@ -187,6 +187,7 @@
            <enum bytes='20 53 01 2B' text='V200WB2 ID=2053 Protokoll:GWG_VBEM'/>
 	   <enum bytes='20 94' text='V200KW1 ID=2094 Protokoll:KW'/>
 	   <enum bytes='20 98' text='V200KW2 ID=2098 Protokoll:KW'/>
+           <enum bytes='20 C8' text='VPlusH01 ID=20C8 Protokoll:KW'/>
            <enum text='UNKNOWN'/>
 	</unit>
 	<unit name='Brenner Stunden'>
@@ -222,6 +223,15 @@
            <icalc get="(B0 &amp; (0x01&lt;&lt;BP))&gt;&gt; BP"/>
            <enum bytes='00' text='stufig'/>
            <enum bytes='01' text='drehzahlgeregelt'/>
+           <enum text='UNKNOWN'/>
+        </unit>
+        <unit name='Mode de fonctionnement'>
+           <abbrev>MF</abbrev>
+           <type>enum</type>
+           <enum bytes='00' text='veille (permanente)'/>
+           <enum bytes='01' text='opération rouge (timer)'/>
+           <enum bytes='02' text='opération normale (timer)'/>
+           <enum bytes='03' text='opération normale (permanente)'/>
            <enum text='UNKNOWN'/>
         </unit>
   </units>
