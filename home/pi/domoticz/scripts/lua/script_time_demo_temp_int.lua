@@ -25,11 +25,11 @@
 
 print('Exécution du script script_time_temp_interieure.lua')
 
-temp = tonumber(otherdevices_svalues['Temperature_raspberry'])
+temp = tonumber(otherdevices_svalues['CPU Raspberry'])
 
 commandArray = {}
 
-commandArray[1]={['UpdateDevice'] = '8|0|'..(temp - 34.2 + 19.8)}
-commandArray[2]={['UpdateDevice'] = '7|0|'..(temp - 34.2 + 14)}
+-- commandArray[1]={['UpdateDevice'] = '8|0|'..(temp - 34.2 + 19.8)}
+-- commandArray[2]={['UpdateDevice'] = '7|0|'..(temp - 34.2 + 14)}
 
 return commandArray

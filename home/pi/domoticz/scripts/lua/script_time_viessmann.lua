@@ -1,4 +1,4 @@
-﻿- ingests tables: otherdevices,otherdevices_svalues
+﻿-- ingests tables: otherdevices,otherdevices_svalues
 -- 
 -- otherdevices and otherdevices_svalues are two item array for all devices: 
 --   otherdevices['yourotherdevicename']="On"
@@ -15,10 +15,10 @@
 -- List all otherdevices svalues for debugging: 
 --   for i, v in pairs(otherdevices_svalues) do print(i, v) end
 
-print('Mise à jour des device de la chaudière')
+print('Mise à jour des devices de la chaudière')
 
 local function getNumber(nom)
-	local handle = io.popen('vclient -h localhost:3002 -c '..nom..' | grep -E [0-9]+\\.[0-9]+ | cut -d " " -f 1')
+	local handle = io.popen('vclient -h localhost:3002 -c '..nom..' | cut -d " " -f 1 | grep -E ^[0-9]+\\.?[0-9]*$')
 	local num = handle:read("*a")
 	handle:close()
 	return num
@@ -29,9 +29,9 @@ minutes = string.sub(t1, 15, 16)
 
 commandArray = {}
 
-if (string.sub(minutes, 1) == "5") then -- On met à jour les données toutes les cinq minutes
+-- if (string.sub(minutes, 1) == "5") then -- On met à jour les données toutes les cinq minutes
 	commandArray[1]={['UpdateDevice'] = '8|0|'..getNumber('getTempIntCC2')}
-	commandArray[1]={['UpdateDevice'] = '7|0|'..getNumber('getTempExt')}
-end 
+	commandArray[2]={['UpdateDevice'] = '7|0|'..getNumber('getTempExt')}
+-- end 
 
 return commandArray
