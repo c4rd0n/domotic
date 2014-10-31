@@ -80,7 +80,7 @@
              <error>05 05</error>
              <description>Température 17A en degrés Celsius</description>
         </command>
-        <command name='getStatuPompeECS' protocmd='getaddr'>
+        <command name='getStatutPompeECS' protocmd='getaddr'>
              <addr>0845</addr>
              <len>1</len>
              <unit>RT</unit>

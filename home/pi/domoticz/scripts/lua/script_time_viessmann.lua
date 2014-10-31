@@ -32,6 +32,7 @@ commandArray = {}
 -- if (string.sub(minutes, 1) == "5") then -- On met à jour les données toutes les cinq minutes
 	commandArray[1]={['UpdateDevice'] = '8|0|'..getNumber('getTempIntCC2')}
 	commandArray[2]={['UpdateDevice'] = '7|0|'..getNumber('getTempExt')}
+        commandArray[3]={['UpdateDevice'] = '17|0|'..(tonumber(getNumber('getStatutPompeECS'))*100)}
 -- end 
 
 return commandArray

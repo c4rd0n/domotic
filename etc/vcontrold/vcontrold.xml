@@ -13,7 +13,7 @@
 	<logging>
 		<file>/var/tmp/vcontrold.log</file>
 		<syslog>n</syslog>
-		<debug>y</debug>
+		<debug>n</debug>
 	</logging>
 	<device ID="2098"/>
      </config>
