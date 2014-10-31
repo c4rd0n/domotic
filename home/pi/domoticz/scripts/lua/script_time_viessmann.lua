@@ -17,6 +17,15 @@
 
 print('Mise à jour des devices de la chaudière')
 
+local function getValeur(nom)
+	local fichierTMP = '/var/tmp/'..os.time()
+	os.execute = ('echo "\\$1" > '..fichierTMP)
+	local handle = io.popen('vclient -h localhost:3002 -t '..fichierTMP..' -c '..nom)
+	local num = handle:read("*a")
+	handle:close()
+	return num
+end -- end getValeur
+
 local function getNumber(nom)
 	local handle = io.popen('vclient -h localhost:3002 -c '..nom..' | cut -d " " -f 1 | grep -E ^[0-9]+\\.?[0-9]*$')
 	local num = handle:read("*a")
@@ -25,16 +34,17 @@ local function getNumber(nom)
 end -- end getNumber
 
 local t1 = os.time()
-minutes = string.sub(t1, 15, 16)
-
+local minutes = t1/60
 commandArray = {}
 
--- if (string.sub(minutes, 1) == "5") then -- On met à jour les données toutes les cinq minutes
-	commandArray[1]={['UpdateDevice'] = '8|0|'..getNumber('getTempIntCC2')}
-	commandArray[2]={['UpdateDevice'] = '7|0|'..getNumber('getTempExt')}
-        commandArray[3]={['UpdateDevice'] = '18|'..getNumber('getStatutPompeECS')..'|0'}
-        commandArray[4]={['UpdateDevice'] = '20|'..getNumber('getRecModeCC2')..'|0'}
-        commandArray[5]={['UpdateDevice'] = '19|'..getNumber('getEcoModeCC2')..'|0'}
--- end 
+if (tonumber(minutes)%2 == 0) then -- On met à jour les données toutes les cinq minutes
+	commandArray[1]={['UpdateDevice'] = '7|0|'..getNumber('getTempExt')}
+	commandArray[2]={['UpdateDevice'] = '8|0|'..getNumber('getTempIntCC2')}
+	commandArray[3]={['UpdateDevice'] = '21|0|'..getNumber('getTempDepCC2')}
+elseif ((tonumber(minutes)+1)%2 == 0) then
+	commandArray[1]={['UpdateDevice'] = '18|'..getNumber('getStatutPompeECS')..'|0'}
+	commandArray[2]={['UpdateDevice'] = '19|'..getNumber('getEcoModeCC2')..'|0'}
+	commandArray[3]={['UpdateDevice'] = '21|0|'..getNumber('getTempDepCC2')}
+end 
 
 return commandArray
