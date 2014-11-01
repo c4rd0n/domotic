@@ -41,7 +41,7 @@ end
 
 local t1 = os.time()
 local minutes = tonumber(t1/60)
-local nbrMAJ = 3
+local nbrMAJ = 4
 local devices = {
 	{
 		["deviceId"] = 7,
@@ -90,6 +90,38 @@ local devices = {
                         ["param"] = "getRecModeCC2"
                 },
                 ["svalue"] = 0
+        },
+        {
+                ["deviceId"] = 22,
+                ["nvalue"] = {
+                        ["fonction"] = getValeur,
+                        ["param"] = "getStatutPompeECS"
+                },
+                ["svalue"] = 0
+        },
+        {
+                ["deviceId"] = 23,
+                ["nvalue"] = 0,
+                ["svalue"] = {
+                        ["fonction"] = getValeur,
+                        ["param"] = "getTempFume"
+                }
+        },
+        {
+                ["deviceId"] = 24,
+                ["nvalue"] = 0,
+                ["svalue"] = {
+                        ["fonction"] = getValeur,
+                        ["param"] = "getTempECS"
+                }
+        },
+        {
+                ["deviceId"] = 25,
+                ["nvalue"] = 0,
+                ["svalue"] = {
+                        ["fonction"] = getValeur,
+                        ["param"] = "getTempChaudiere"
+                }
         }
 }
 
