@@ -1,130 +1,191 @@
 ﻿<vito>
-  <devices>
-	<device ID="2098" name="V200KW2" protocol="KW2"/>
-  </devices>
-  <commands> 
-	<command name='getDevice' protocmd='getaddr'>
+	<devices>
+		<device ID="2098" name="V200KW2" protocol="KW2"/>
+	</devices>
+	<commands>
+        <command name='getDevice' protocmd='getaddr'>
              <addr>00F8</addr>
              <len>2</len>
              <unit>DT</unit>
              <error>05 05</error>
              <description>identifiant de la régulation</description>
         </command>
-	<command name='getTempExt' protocmd='getaddr'>
-	     <addr>5525</addr>
-	     <len>2</len>
-	     <unit>UT</unit>
-	     <error>05 05</error>
-	     <description>Température extérieure en degrés Celsius</description>			
-	</command>
-	<command name='getTempExtMoy' protocmd='getaddr'>
-	     <addr>5527</addr>
-	     <len>2</len>
-	     <unit>UT</unit>
-	     <error>05 05</error>
-	     <description>Température extérieure en degrés Celsius</description>
-	</command>
-        <command name='getTempDepCC2' protocmd='getaddr'>
-             <addr>3900</addr>
-             <len>2</len>
-             <unit>UT</unit>
-             <error>05 05</error>
-             <description>Température de départ du circuit de chauffage 2</description>
-        </command>
-        <command name='getTempIntCC2' protocmd='getaddr'>
-             <addr>0898</addr>
-             <len>2</len>
-             <unit>UT</unit>
-             <error>05 05</error>
-             <description>Température intérieure pour le circuit de chauffage 2</description>
-        </command>
-        <command name='getModeCC2' protocmd='getaddr'>
-             <addr>3500</addr>
-             <len>1</len>
-             <unit>MF</unit>
-             <error>05 05</error>
-             <description>Mode de fonctionnement du circuit de chauffage 2</description>
-        </command>
-        <command name='setModeCC2' protocmd='setaddr'>
-                <addr>3323</addr>
-                <len>1</len>
-                <unit>MF</unit>
-                <error>05 05</error>
-                <description>identifiant de la régulation</description>
-        </command>
-        <command name='getEcoModeCC2' protocmd='getaddr'>
-             <addr>3331</addr>
-             <len>1</len>
-             <unit>RT</unit>
-             <error>05 05</error>
-             <description>Statut du mode économique du circuit de chauffage 2</description>
-        </command>
-        <command name='getRecModeCC2' protocmd='getaddr'>
-             <addr>3330</addr>
-             <len>1</len>
-             <unit>RT</unit>
-             <error>05 05</error>
-             <description>Statut du mode réception du circuit de chauffage 2</description>
-        </command>
-        <command name='getTempECS' protocmd='getaddr'>
-             <addr>0812</addr>
-             <len>2</len>
-             <unit>UT</unit>
-             <error>05 05</error>
-             <description>Température eau chaude sanitaire</description>
-        </command>
-	<command name='getTempFume' protocmd='getaddr'>
-	     <addr>0808</addr>
-	     <len>2</len>
-	     <unit>UT</unit>
-	     <error>05 05</error>
-	     <description>Température des gaz d'échappement en degrés Celsius</description>
-	</command>
-        <command name='getTemp17A' protocmd='getaddr'>
-             <addr>080A</addr>
-             <len>2</len>
-             <unit>UT</unit>
-             <error>05 05</error>
-             <description>Température 17A en degrés Celsius</description>
-        </command>
-        <command name='getStatutPompeECS' protocmd='getaddr'>
-             <addr>0845</addr>
-             <len>1</len>
-             <unit>RT</unit>
-             <error>05 05</error>
-             <description>Statut de la pompe ECS</description>
-        </command>
-	<command name='getTempChaudiere' protocmd='getaddr'>
-	     <addr>0810</addr>
-	     <len>2</len>
-	     <unit>UT</unit>
-	     <error>05 05</error>
-	     <description>Température de la chaudière en degrès Celsius</description>
-	</command>
-	<command name='getBruleurStarts' protocmd='getaddr'>
-	     <addr>088A</addr>
-	     <len>2</len>
-	     <unit>CO</unit>
-	     <error>05 05</error>
-	     <description>Bruleurs démarrés</description>
-	</command>
-	<command name='getBruleur1Heure' protocmd='getaddr'>
-	     <addr>0886</addr>
-             <len>4</len>
-             <unit>CS</unit>
-             <description>Temps d'activation du bruleur 1</description>
-        </command>
-	<command name='getBruleur2Heure' protocmd='getaddr'>
-             <addr>08AB</addr>
-             <len>4</len>
-             <unit>CS</unit>
-             <description>Temps d'activation du bruleur 2</description>
-        </command>
-        <command name='getSystemTime' protocmd='getaddr'>
-             <addr>088E</addr>
-             <len>8</len>
-             <unit>TI</unit>
-             <description>Date system de la chaudière</description>
-        </command>
-    </commands>
+		<command name='getTempExt' protocmd='getaddr'>
+			 <addr>5525</addr>
+			 <len>2</len>
+			 <unit>UT</unit>
+			 <error>05 05</error>
+			 <description>Température extérieure en degrés Celsius</description>			
+		</command>
+		<command name='getTempExtMoy' protocmd='getaddr'>
+			 <addr>5527</addr>
+			 <len>2</len>
+			 <unit>UT</unit>
+			 <error>05 05</error>
+			 <description>Température extérieure en degrés Celsius</description>
+		</command>
+		<command name='getTempDepCC2' protocmd='getaddr'>
+			 <addr>3900</addr>
+			 <len>2</len>
+			 <unit>UT</unit>
+			 <error>05 05</error>
+			 <description>Température de départ du circuit de chauffage 2</description>
+		</command>
+		<command name='getPompeStatutCC2' protocmd='getaddr'>
+			 <addr>3906</addr>
+			 <len>1</len>
+			 <unit>RT</unit>
+			 <error>05 05</error>
+			 <description>Statut de la pompe de circulation du circuit de chauffage 2</description>
+		</command>
+		<command name='getTempIntCC2' protocmd='getaddr'>
+			 <addr>0898</addr>
+			 <len>2</len>
+			 <unit>UT</unit>
+			 <error>05 05</error>
+			 <description>Température intérieure pour le circuit de chauffage 2</description>
+		</command>
+		<command name='setTempNormalCC2' protocmd='setaddr'>
+			 <addr>3321</addr>
+			 <len>2</len>
+			 <unit>UT</unit>
+			 <error>05 05</error>
+			 <description>Configuration de la température de confort pour le circuit de chauffage 2</description>
+		</command>
+		<command name='setTempReduitCC2' protocmd='setaddr'>
+			 <addr>3307</addr>
+			 <len>2</len>
+			 <unit>UT</unit>
+			 <error>05 05</error>
+			 <description>Configuration de la température réduite pour le circuit de chauffage 2</description>
+		</command>
+		<command name='getModeCC2' protocmd='getaddr'>
+			 <addr>3500</addr>
+			 <len>1</len>
+			 <unit>MF</unit>
+			 <error>05 05</error>
+			 <description>Mode de fonctionnement du circuit de chauffage 2</description>
+		</command>
+		<command name='setModeCC2' protocmd='setaddr'>
+				<addr>3323</addr>
+				<len>1</len>
+				<unit>MF</unit>
+				<error>05 05</error>
+				<description>identifiant de la régulation</description>
+		</command>
+		<command name='getEcoModeCC2' protocmd='getaddr'>
+			 <addr>3331</addr>
+			 <len>1</len>
+			 <unit>RT</unit>
+			 <error>05 05</error>
+			 <description>Statut du mode économique du circuit de chauffage 2</description>
+		</command>
+		<command name='setEcoModeCC2' protocmd='setaddr'>
+			 <addr>3331</addr>
+			 <len>1</len>
+			 <unit>RT</unit>
+			 <error>05 05</error>
+			 <description>Statut du mode économique du circuit de chauffage 2</description>
+		</command>
+		<command name='getRecModeCC2' protocmd='getaddr'>
+			 <addr>3330</addr>
+			 <len>1</len>
+			 <unit>RT</unit>
+			 <error>05 05</error>
+			 <description>Statut du mode réception du circuit de chauffage 2</description>
+		</command>
+		<command name='setRecModeCC2' protocmd='setaddr'>
+			 <addr>3330</addr>
+			 <len>1</len>
+			 <unit>RT</unit>
+			 <error>05 05</error>
+			 <description>Statut du mode réception du circuit de chauffage 2</description>
+		</command>
+		<command name='getTempECS' protocmd='getaddr'>
+			 <addr>0812</addr>
+			 <len>2</len>
+			 <unit>UT</unit>
+			 <error>05 05</error>
+			 <description>Température eau chaude sanitaire</description>
+		</command>
+		<command name='getTempDechargeECS' protocmd='getaddr'>
+			 <addr>0814</addr>
+			 <len>2</len>
+			 <unit>UT</unit>
+			 <error>05 05</error>
+			 <description>Température de décharge de l'eau chaude sanitaire</description>
+		</command>
+		<command name='getStatutPompeECS' protocmd='getaddr'>
+			 <addr>6513</addr>
+			 <len>1</len>
+			 <unit>RT</unit>
+			 <error>05 05</error>
+			 <description>Statut de la pompe d'alimentation de l'eau chaude sanitaire</description>
+		</command>
+		<command name='getStatutCircuECS' protocmd='getaddr'>
+			 <addr>0845</addr>
+			 <len>1</len>
+			 <unit>RT</unit>
+			 <error>05 05</error>
+			 <description>Statut de la pompe de circulation de l'eau chaude sanitaire</description>
+		</command>
+		<command name='setTempECS' protocmd='setaddr'>
+			 <addr>6300</addr>
+			 <len>2</len>
+			 <unit>UT</unit>
+			 <error>05 05</error>
+			 <description>Température eau chaude sanitaire</description>
+		</command>
+		<command name='getTempFume' protocmd='getaddr'>
+			 <addr>0808</addr>
+			 <len>2</len>
+			 <unit>UT</unit>
+			 <error>05 05</error>
+			 <description>Température des gaz d'échappement en degrés Celsius</description>
+		</command>
+		<command name='getTemp17A' protocmd='getaddr'>
+			 <addr>080A</addr>
+			 <len>2</len>
+			 <unit>UT</unit>
+			 <error>05 05</error>
+			 <description>Température 17A en degrés Celsius</description>
+		</command>
+		<command name='getTempChaudiere' protocmd='getaddr'>
+			 <addr>0810</addr>
+			 <len>2</len>
+			 <unit>UT</unit>
+			 <error>05 05</error>
+			 <description>Température de la chaudière en degrès Celsius</description>
+		</command>
+		<command name='getActChaudiere' protocmd='getaddr'>
+			 <addr>08A7</addr>
+			 <len>4</len>
+			 <unit>CS</unit>
+			 <description>Temps d'activation de la chaudière</description>
+		</command>
+		<command name='getDemarrageChaudiere' protocmd='getaddr'>
+			 <addr>088A</addr>
+			 <len>4</len>
+			 <unit>CS</unit>
+			 <description>Démarrage de la chaudière</description>
+		</command>
+		<command name='getBruleur1Heure' protocmd='getaddr'>
+			<addr>0886</addr>
+			<len>4</len>
+			<unit>CS</unit>
+			<description>Temps d'activation du bruleur 1</description>
+		</command>
+		<command name='getBruleur2Heure' protocmd='getaddr'>
+			<addr>08AB</addr>
+			<len>4</len>
+			<unit>CS</unit>
+			<description>Temps d'activation du bruleur 2</description>
+		</command>
+		<command name='getSystemTime' protocmd='getaddr'>
+			 <addr>088E</addr>
+			 <len>8</len>
+			 <unit>TI</unit>
+			 <description>Date system de la chaudière</description>
+		</command>
+	</commands>
 </vito>
