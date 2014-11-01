@@ -3,7 +3,7 @@
 	<device ID="2098" name="V200KW2" protocol="KW2"/>
   </devices>
   <commands> 
-         <command name='getDevice' protocmd='getaddr'>
+	<command name='getDevice' protocmd='getaddr'>
              <addr>00F8</addr>
              <len>2</len>
              <unit>DT</unit>
@@ -44,6 +44,13 @@
              <unit>MF</unit>
              <error>05 05</error>
              <description>Mode de fonctionnement du circuit de chauffage 2</description>
+        </command>
+        <command name='setModeCC2' protocmd='setaddr'>
+                <addr>3323</addr>
+                <len>1</len>
+                <unit>MF</unit>
+                <error>05 05</error>
+                <description>identifiant de la régulation</description>
         </command>
         <command name='getEcoModeCC2' protocmd='getaddr'>
              <addr>3331</addr>
