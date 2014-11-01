@@ -44,7 +44,7 @@ if (tonumber(minutes)%2 == 0) then -- On met à jour les données toutes les cin
 elseif ((tonumber(minutes)+1)%2 == 0) then
 	commandArray[1]={['UpdateDevice'] = '18|'..getNumber('getStatutPompeECS')..'|0'}
 	commandArray[2]={['UpdateDevice'] = '19|'..getNumber('getEcoModeCC2')..'|0'}
-	commandArray[3]={['UpdateDevice'] = '21|0|'..getNumber('getTempDepCC2')}
+	commandArray[3]={['UpdateDevice'] = '20|0|'..getNumber('getRecModeCC2')}
 end 
 
 return commandArray
