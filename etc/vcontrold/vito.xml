@@ -48,30 +48,29 @@
 		<command name='setTempNormalCC2' protocmd='setaddr'>
 			 <addr>3321</addr>
 			 <len>2</len>
-			 <unit>UT</unit>
+			 <unit>UTI</unit>
 			 <error>05 05</error>
 			 <description>Configuration de la température de confort pour le circuit de chauffage 2</description>
 		</command>
 		<command name='setTempReduitCC2' protocmd='setaddr'>
 			 <addr>3307</addr>
 			 <len>2</len>
-			 <unit>UT</unit>
+			 <unit>UTI</unit>
 			 <error>05 05</error>
 			 <description>Configuration de la température réduite pour le circuit de chauffage 2</description>
 		</command>
 		<command name='getModeCC2' protocmd='getaddr'>
 			 <addr>3500</addr>
 			 <len>1</len>
-			 <unit>MF</unit>
+			 <unit>RT</unit>
 			 <error>05 05</error>
 			 <description>Mode de fonctionnement du circuit de chauffage 2</description>
 		</command>
 		<command name='setModeCC2' protocmd='setaddr'>
 				<addr>3323</addr>
 				<len>1</len>
-				<unit>MF</unit>
-				<error>05 05</error>
-				<description>identifiant de la régulation</description>
+				<unit>ST</unit>
+				<description>Mode de fonctionnement du circuit de chauffage 2</description>
 		</command>
 		<command name='getEcoModeCC2' protocmd='getaddr'>
 			 <addr>3331</addr>
@@ -83,7 +82,7 @@
 		<command name='setEcoModeCC2' protocmd='setaddr'>
 			 <addr>3331</addr>
 			 <len>1</len>
-			 <unit>RT</unit>
+			 <unit>ST</unit>
 			 <error>05 05</error>
 			 <description>Statut du mode économique du circuit de chauffage 2</description>
 		</command>
@@ -97,7 +96,7 @@
 		<command name='setRecModeCC2' protocmd='setaddr'>
 			 <addr>3330</addr>
 			 <len>1</len>
-			 <unit>RT</unit>
+			 <unit>ST</unit>
 			 <error>05 05</error>
 			 <description>Statut du mode réception du circuit de chauffage 2</description>
 		</command>
@@ -132,7 +131,7 @@
 		<command name='setTempECS' protocmd='setaddr'>
 			 <addr>6300</addr>
 			 <len>2</len>
-			 <unit>UT</unit>
+			 <unit>UTI</unit>
 			 <error>05 05</error>
 			 <description>Température eau chaude sanitaire</description>
 		</command>
