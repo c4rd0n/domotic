@@ -18,9 +18,7 @@
 print('Mise à jour des devices de la chaudière')
 
 local function getValeur(nom)
-	local fichierTMP = '/var/tmp/'..os.time()
-	os.execute = ('echo "\\$1" > '..fichierTMP)
-	local handle = io.popen('vclient -h localhost:3002 -t '..fichierTMP..' -c '..nom)
+	local handle = io.popen('vclient -h localhost:3002 -c '..nom..'  | sed -n "2p" | cut -d " " -f 1')
 	local num = handle:read("*a")
 	handle:close()
 	return num
