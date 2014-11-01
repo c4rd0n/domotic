@@ -15,34 +15,95 @@
 -- List all otherdevices svalues for debugging: 
 --   for i, v in pairs(otherdevices_svalues) do print(i, v) end
 
-print('Mise à jour des devices de la chaudière')
+print("Mise à jour des devices de la chaudière")
 
 local function getValeur(nom)
-	local handle = io.popen('vclient -h localhost:3002 -c '..nom..'  | sed -n "2p" | cut -d " " -f 1')
+	local handle = io.popen("vclient -h localhost:3002 -c "..nom.."  | sed -n '2p' | cut -d ' ' -f 1")
 	local num = handle:read("*a")
 	handle:close()
-	return num
+	return num:gsub("%s+", "")
 end -- end getValeur
 
 local function getNumber(nom)
-	local handle = io.popen('vclient -h localhost:3002 -c '..nom..' | cut -d " " -f 1 | grep -E ^[0-9]+\\.?[0-9]*$')
+	local handle = io.popen("vclient -h localhost:3002 -c "..nom.." | cut -d ' ' -f 1 | grep -E ^[0-9]+\\.?[0-9]*$")
 	local num = handle:read("*a")
 	handle:close()
-	return num
+	return num:gsub("%s+", "")
 end -- end getNumber
 
+local function getDeviceValue(value)
+	if (type(value)=="table") then
+		return value.fonction(value.param)
+	else
+		return value
+	end
+end
+
 local t1 = os.time()
-local minutes = t1/60
+local minutes = tonumber(t1/60)
+local nbrMAJ = 3
+local devices = {
+	{
+		["deviceId"] = 7,
+		["nvalue"] = 0,
+		["svalue"] = {
+			["fonction"] = getNumber,
+			["param"] = "getTempExt"
+		}
+	},
+        {
+                ["deviceId"] = 8,
+                ["nvalue"] = 0,
+                ["svalue"] = {
+                        ["fonction"] = getNumber,
+                        ["param"] = "getTempIntCC2"
+                }
+        },
+        {
+                ["deviceId"] = 21,
+                ["nvalue"] = 0,
+                ["svalue"] = {
+                        ["fonction"] = getNumber,
+                        ["param"] = "getTempDepCC2"
+                }
+        },
+        {
+                ["deviceId"] = 18,
+                ["nvalue"] = {
+                        ["fonction"] = getNumber,
+                        ["param"] = "getStatutPompeECS"
+                },
+                ["svalue"] = 0
+        },
+	{
+                ["deviceId"] = 19,
+                ["nvalue"] = {
+                        ["fonction"] = getNumber,
+                        ["param"] = "getEcoModeCC2"
+                },
+                ["svalue"] = 0
+        },
+	{
+		["deviceId"] = 20,
+                ["nvalue"] = {
+                        ["fonction"] = getNumber,
+                        ["param"] = "getRecModeCC2"
+                },
+                ["svalue"] = 0
+        }
+}
+
 commandArray = {}
 
-if (tonumber(minutes)%2 == 0) then -- On met à jour les données toutes les cinq minutes
-	commandArray[1]={['UpdateDevice'] = '7|0|'..getNumber('getTempExt')}
-	commandArray[2]={['UpdateDevice'] = '8|0|'..getNumber('getTempIntCC2')}
-	commandArray[3]={['UpdateDevice'] = '21|0|'..getNumber('getTempDepCC2')}
-elseif ((tonumber(minutes)+1)%2 == 0) then
-	commandArray[1]={['UpdateDevice'] = '18|'..getNumber('getStatutPompeECS')..'|0'}
-	commandArray[2]={['UpdateDevice'] = '19|'..getNumber('getEcoModeCC2')..'|0'}
-	commandArray[3]={['UpdateDevice'] = '20|'..getNumber('getRecModeCC2')..'|0'}
-end 
+local nbrDevices = #devices
+local nbrLots = math.ceil(nbrDevices / nbrMAJ)
+local i_min = ( minutes % nbrLots ) * nbrMAJ + 1
+local i_max = i_min + nbrMAJ - 1
+
+for i, device in pairs(devices) do
+	if(i >= i_min and i <= i_max) then
+		commandArray[i]={["UpdateDevice"] = device.deviceId.."|"..getDeviceValue(device.nvalue).."|"..getDeviceValue(device.svalue)}
+	end -- end if
+end -- end for
 
 return commandArray
