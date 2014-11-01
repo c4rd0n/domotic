@@ -62,7 +62,7 @@
 		<command name='getModeCC2' protocmd='getaddr'>
 			 <addr>3500</addr>
 			 <len>1</len>
-			 <unit>RT</unit>
+			 <unit>ST</unit>
 			 <error>05 05</error>
 			 <description>Mode de fonctionnement du circuit de chauffage 2</description>
 		</command>
