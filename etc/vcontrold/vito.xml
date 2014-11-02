@@ -165,7 +165,7 @@
 		<command name='getDemarrageChaudiere' protocmd='getaddr'>
 			 <addr>088A</addr>
 			 <len>4</len>
-			 <unit>CS</unit>
+			 <unit>CO</unit>
 			 <description>Démarrage de la chaudière</description>
 		</command>
 		<command name='getBruleur1Heure' protocmd='getaddr'>
