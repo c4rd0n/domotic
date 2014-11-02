@@ -122,6 +122,14 @@ local devices = {
                         ["fonction"] = getValeur,
                         ["param"] = "getTempChaudiere"
                 }
+        },
+        {
+                ["deviceId"] = 26,
+                ["nvalue"] = {
+                        ["fonction"] = getValeur,
+                        ["param"] = "getPompeStatutCC2"
+                },
+                ["svalue"] = 0
         }
 }
 
