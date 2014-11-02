@@ -24,13 +24,6 @@
 			 <error>05 05</error>
 			 <description>Température extérieure en degrés Celsius</description>
 		</command>
-		<command name='getModeCC1' protocmd='getaddr'>
-			 <addr>2500</addr>
-			 <len>1</len>
-			 <unit>ST</unit>
-			 <error>05 05</error>
-			 <description>Mode de fonctionnement du circuit de chauffage 2</description>
-		</command>
 		<command name='getTempDepCC2' protocmd='getaddr'>
 			 <addr>3900</addr>
 			 <len>2</len>
@@ -67,7 +60,7 @@
 			 <description>Configuration de la température réduite pour le circuit de chauffage 2</description>
 		</command>
 		<command name='getModeCC2' protocmd='getaddr'>
-			 <addr>3500</addr>
+			 <addr>3323</addr>
 			 <len>1</len>
 			 <unit>ST</unit>
 			 <error>05 05</error>
