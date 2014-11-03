@@ -19,14 +19,14 @@ local function getValeur(nom)
 	local handle = io.popen("vclient -h localhost:3002 -c "..nom.."  | sed -n '2p' | cut -d ' ' -f 1")
 	local num = handle:read("*a")
 	handle:close()
-	return num:gsub("%s+", "")
+	return (num:gsub("%s+", ""))
 end -- end getValeur
 
 local function getNumber(nom)
 	local handle = io.popen("vclient -h localhost:3002 -c "..nom.." | cut -d ' ' -f 1 | grep -E ^[0-9]+\\.?[0-9]*$")
 	local num = handle:read("*a")
 	handle:close()
-	return num:gsub("%s+", "")
+	return (num:gsub("%s+", ""))
 end -- end getNumber
 
 local function getDeviceValue(value)
@@ -40,30 +40,6 @@ local function getDeviceValue(value)
 		return value
 	end -- end if
 end -- end getDeviceValue
-
-local function getMode()
-	local mode = getValeur("getModeCC2")
-	print ("Mode chaudière : "..mode)
-	return mode
-end -- end getMode
-
-local function getECSStatut()
-	local mode = tonumber(getMode())
-	if mode == 1 or mode == 2 then
-		return "On"
-	else
-		return "Off"
-	end -- end if
-end -- end getECSStatut
-
-local function getChauffageStatut()
-        local mode = tonumber(getMode())
-        if mode > 1 then
-                return "On"
-        else
-                return "Off"
-        end -- end if
-end -- end getChauffageStatut
 
 local minutes = tonumber(os.time()/60)
 local nbrMAJ = 4
@@ -150,24 +126,38 @@ local devices = {
         },
         {
                 ["deviceId"] = 26,
+		["name"] = "Chauffage - Pompe de circulation",
                 ["nvalue"] = {
-                        ["fonction"] = getValeur,
-                        ["param"] = "getPompeStatutCC2"
+                        ["fonction"] = function() return getValeur("getPompeStatutCC2") end
                 },
-                ["svalue"] = 0
+		["svalue"] = 0
         },
         {
                 ["deviceId"] = 27,
                 ["name"] = "Chaudière - Eau Chaude Sanitaire",
                 ["value"] = {
-                        ["fonction"] = getECSStatut
+                        ["fonction"] = function ()
+			        local mode = tonumber(getValeur("getModeCC2"))
+			        if mode == 1 or mode == 2 then
+			                return "On"
+			        else
+			                return "Off"
+			        end -- end if
+			end -- end getECSStatut
                 }
         },
         {
                 ["deviceId"] = 28,
 		["name"] = "Chaudière - Chauffage",
                 ["value"] = {
-                        ["fonction"] = getChauffageStatut
+                        ["fonction"] = function()
+				local mode = tonumber(getValeur("getModeCC2"))
+			        if mode > 1 then
+			                return "On"
+			        else
+			                return "Off"
+			        end -- end if
+			end -- end function
                 }
         }
 }
@@ -179,8 +169,8 @@ local nbrLots = math.ceil(nbrDevices / nbrMAJ)
 local i_min = ( minutes % nbrLots ) * nbrMAJ + 1
 local i_max = i_min + nbrMAJ - 1
 
-i_min = 10
-i_max = 13
+-- i_min = 10
+-- i_max = 13
 
 for i, device in pairs(devices) do
 	if(i >= i_min and i <= i_max) then
@@ -191,7 +181,8 @@ for i, device in pairs(devices) do
                         print("Mise à jour du device "..device.name)
 			local value = getDeviceValue(device.value)
 			if (otherdevices[device.name]~=value) then -- On ne met à jour le device que si nécessaire
-				commandArray[device.name] = getDeviceValue(device.value)
+				-- print("DEBUG - commandArray["..device.name.."] = "..value)
+				commandArray[device.name] = value
 			end -- end if
 		end -- end if
 	end -- end if
