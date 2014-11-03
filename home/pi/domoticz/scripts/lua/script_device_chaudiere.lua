@@ -46,4 +46,26 @@ elseif (devicechanged['Chaudière - Mode économique'] == 'Off') then
         os.execute("vclient -h localhost:3002 -c \"setEcoModeCC2 0\"")
 end
 
+-- Mode chauffage
+if (devicechanged['Chaudière - Chauffage'] == 'On') then
+        os.execute("vclient -h localhost:3002 -c \"setModeCC2 2\"")
+elseif (devicechanged['Chaudière - Chauffage'] == 'Off') then
+	if(otherdevices['Chaudière - Eau Chaude Sanitaire'] == 'On') then
+		os.execute("vclient -h localhost:3002 -c \"setModeCC2 1\"")
+	else
+		os.execute("vclient -h localhost:3002 -c \"setModeCC2 0\"")
+	end -- end if
+end
+
+-- Mode ECS
+if (devicechanged['Chaudière - Eau Chaude Sanitaire'] == 'On') then
+	if(otherdevices['Chaudière - Chauffage'] == 'On') then
+	        os.execute("vclient -h localhost:3002 -c \"setModeCC2 2\"")
+	else
+                os.execute("vclient -h localhost:3002 -c \"setModeCC2 1\"")
+ 	end
+elseif (devicechanged['Chaudière - Eau Chaude Sanitaire'] == 'Off') then
+        os.execute("vclient -h localhost:3002 -c \"setModeCC2 0\"")
+end
+
 return commandArray

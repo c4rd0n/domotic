@@ -11,11 +11,9 @@
 --
 -- The print command will output lua print statements to the domoticz log for debugging.
 -- List all otherdevices states for debugging: 
---   for i, v in pairs(otherdevices) do print(i, v) end
+--   for i, v in pairs(otherdevices) do print("index : "..i.."; valeur : ".. v) end
 -- List all otherdevices svalues for debugging: 
---   for i, v in pairs(otherdevices_svalues) do print(i, v) end
-
-print("Mise à jour des devices de la chaudière")
+--   for i, v in pairs(otherdevices_svalues) do print("index : "..i.."; valeur : ".. v) end
 
 local function getValeur(nom)
 	local handle = io.popen("vclient -h localhost:3002 -c "..nom.."  | sed -n '2p' | cut -d ' ' -f 1")
@@ -44,24 +42,26 @@ local function getDeviceValue(value)
 end -- end getDeviceValue
 
 local function getMode()
-	return getValeur("getModeCC2")
+	local mode = getValeur("getModeCC2")
+	print ("Mode chaudière : "..mode)
+	return mode
 end -- end getMode
 
 local function getECSStatut()
 	local mode = tonumber(getMode())
 	if mode == 1 or mode == 2 then
-		return 1
+		return "On"
 	else
-		return 0
+		return "Off"
 	end -- end if
 end -- end getECSStatut
 
 local function getChauffageStatut()
         local mode = tonumber(getMode())
         if mode > 1 then
-                return 1
+                return "On"
         else
-                return 0
+                return "Off"
         end -- end if
 end -- end getChauffageStatut
 
@@ -158,17 +158,17 @@ local devices = {
         },
         {
                 ["deviceId"] = 27,
-                ["nvalue"] = {
+                ["name"] = "Chaudière - Eau Chaude Sanitaire",
+                ["value"] = {
                         ["fonction"] = getECSStatut
-                },
-                ["svalue"] = 0
+                }
         },
         {
                 ["deviceId"] = 28,
-                ["nvalue"] = {
+		["name"] = "Chaudière - Chauffage",
+                ["value"] = {
                         ["fonction"] = getChauffageStatut
-                },
-                ["svalue"] = 0
+                }
         }
 }
 
@@ -179,9 +179,21 @@ local nbrLots = math.ceil(nbrDevices / nbrMAJ)
 local i_min = ( minutes % nbrLots ) * nbrMAJ + 1
 local i_max = i_min + nbrMAJ - 1
 
+i_min = 10
+i_max = 13
+
 for i, device in pairs(devices) do
 	if(i >= i_min and i <= i_max) then
-		commandArray[i]={["UpdateDevice"] = device.deviceId.."|"..getDeviceValue(device.nvalue).."|"..getDeviceValue(device.svalue)}
+		if (device.deviceId~=nil and device.nvalue~=nil and device.svalue~=nil) then
+			print("Mise à jour du device "..device.deviceId)
+			commandArray[i]={["UpdateDevice"] = device.deviceId.."|"..getDeviceValue(device.nvalue).."|"..getDeviceValue(device.svalue)}
+		elseif (device.name~=nil and device.value~=nil) then
+                        print("Mise à jour du device "..device.name)
+			local value = getDeviceValue(device.value)
+			if (otherdevices[device.name]~=value) then -- On ne met à jour le device que si nécessaire
+				commandArray[device.name] = getDeviceValue(device.value)
+			end -- end if
+		end -- end if
 	end -- end if
 end -- end for
 
