@@ -33,14 +33,39 @@ end -- end getNumber
 
 local function getDeviceValue(value)
 	if (type(value)=="table") then
-		return value.fonction(value.param)
+		if (value.param ~= nil and value.param ~= "") then
+			return value.fonction(value.param)
+		else
+			return value.fonction()
+		end -- end if
 	else
 		return value
-	end
-end
+	end -- end if
+end -- end getDeviceValue
 
-local t1 = os.time()
-local minutes = tonumber(t1/60)
+local function getMode()
+	return getValeur("getModeCC2")
+end -- end getMode
+
+local function getECSStatut()
+	local mode = tonumber(getMode())
+	if mode == 1 or mode == 2 then
+		return 1
+	else
+		return 0
+	end -- end if
+end -- end getECSStatut
+
+local function getChauffageStatut()
+        local mode = tonumber(getMode())
+        if mode > 1 then
+                return 1
+        else
+                return 0
+        end -- end if
+end -- end getChauffageStatut
+
+local minutes = tonumber(os.time()/60)
 local nbrMAJ = 4
 local devices = {
 	{
@@ -128,6 +153,20 @@ local devices = {
                 ["nvalue"] = {
                         ["fonction"] = getValeur,
                         ["param"] = "getPompeStatutCC2"
+                },
+                ["svalue"] = 0
+        },
+        {
+                ["deviceId"] = 27,
+                ["nvalue"] = {
+                        ["fonction"] = getECSStatut
+                },
+                ["svalue"] = 0
+        },
+        {
+                ["deviceId"] = 28,
+                ["nvalue"] = {
+                        ["fonction"] = getChauffageStatut
                 },
                 ["svalue"] = 0
         }
