@@ -181,8 +181,8 @@ local nbrLots = math.ceil(nbrDevices / nbrMAJ)
 local i_min = ( minutes % nbrLots ) * nbrMAJ + 1
 local i_max = i_min + nbrMAJ - 1
 
-i_min = 5
-i_max = 6
+-- i_min = 5
+-- i_max = 6
 
 for i, device in pairs(devices) do
 	if(i >= i_min and i <= i_max) then
