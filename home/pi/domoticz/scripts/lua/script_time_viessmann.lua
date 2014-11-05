@@ -78,19 +78,31 @@ local devices = {
         },
 	{
                 ["deviceId"] = 19,
-                ["nvalue"] = {
-                        ["fonction"] = getNumber,
-                        ["param"] = "getEcoModeCC2"
-                },
-                ["svalue"] = 0
+		["name"] = "Chauffage - Mode économique",
+                ["value"] = {
+                        ["fonction"] = function ()
+                                local mode = tonumber(getValeur("getEcoModeCC2"))
+                                if mode == 1 or mode == 2 then
+                                        return "On"
+                                else
+                                        return "Off"
+                                end -- end if
+                        end -- end getECSStatut
+		}
         },
 	{
 		["deviceId"] = 20,
-                ["nvalue"] = {
-                        ["fonction"] = getNumber,
-                        ["param"] = "getRecModeCC2"
-                },
-                ["svalue"] = 0
+                ["name"] = "Chauffage - Mode réception",
+                ["value"] = {
+                        ["fonction"] = function ()
+                                local mode = tonumber(getValeur("getRecModeCC2"))
+                                if mode == 1 or mode == 2 then
+                                        return "On"
+                                else
+                                        return "Off"
+                                end -- end if
+                        end -- end getECSStatut
+                }
         },
         {
                 ["deviceId"] = 22,
@@ -169,8 +181,8 @@ local nbrLots = math.ceil(nbrDevices / nbrMAJ)
 local i_min = ( minutes % nbrLots ) * nbrMAJ + 1
 local i_max = i_min + nbrMAJ - 1
 
--- i_min = 10
--- i_max = 13
+i_min = 5
+i_max = 6
 
 for i, device in pairs(devices) do
 	if(i >= i_min and i <= i_max) then

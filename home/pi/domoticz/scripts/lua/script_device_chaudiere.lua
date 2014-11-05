@@ -33,16 +33,16 @@
 commandArray = {}
 
 -- Mode Réception
-if (devicechanged['Chaudière - Mode réception'] == 'On') then
+if (devicechanged['Chauffage - Mode réception'] == 'On') then
         os.execute("vclient -h localhost:3002 -c \"setRecModeCC2 1\"")
-elseif (devicechanged['Chaudière - Mode réception'] == 'Off') then
+elseif (devicechanged['Chauffage - Mode réception'] == 'Off') then
         os.execute("vclient -h localhost:3002 -c \"setRecModeCC2 0\"")
 end
 
 -- Mode Economique
-if (devicechanged['Chaudière - Mode économique'] == 'On') then
+if (devicechanged['Chauffage - Mode économique'] == 'On') then
 	os.execute("vclient -h localhost:3002 -c \"setEcoModeCC2 1\"")
-elseif (devicechanged['Chaudière - Mode économique'] == 'Off') then
+elseif (devicechanged['Chauffage - Mode économique'] == 'Off') then
         os.execute("vclient -h localhost:3002 -c \"setEcoModeCC2 0\"")
 end
 
