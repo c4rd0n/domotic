@@ -31,7 +31,7 @@ handle:close()
 
 if 90 < tonumber(pourcentage) then
 	os.execute("sudo rm /var/tmp/*")
-	os.execute("sudo service vcontrol stop && i=0 && while test `ps aux | grep -c vcontrold` -lt 2; do i=$(($i+1)); if test $i -gt 10; then sudo reboot; fi; echo "essai $i :"; sudo service vcontrol restart; sleep 1; done")
+	os.execute("sudo service vcontrol stop && i=0 && while test `ps aux | grep -c vcontrold` -lt 2; do i=$(($i+1)); if test $i -gt 10; then sudo reboot; fi; echo \"essai $i :\"; sudo service vcontrol restart; sleep 1; done")
 	os.execute("sudo service domoticz.sh restart")
 end
 
