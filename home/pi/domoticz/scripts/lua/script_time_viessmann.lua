@@ -171,7 +171,31 @@ local devices = {
 			        end -- end if
 			end -- end function
                 }
-        }
+        },
+        {
+                ["deviceId"] = 29,
+                ["name"] = "Chaudière - Brûleur 1",
+		["nvalue"] = 0,
+                ["svalue"] = {
+                        ["fonction"] = function()
+				local currentTime = os.time()
+                                local newHeure = tonumber(getValeur("getBruleur1Heure"))
+				local oldHeure = tonumber(uservariables["Chaudiere - NbrHeureBruleur1"])
+				local s = otherdevices_lastupdate["Chaudière - Brûleur 1"]
+				local updateTime = os.time({year=string.sub(s, 1, 4), month=string.sub(s, 6, 7), day=string.sub(s, 9, 10), hour=string.sub(s, 12, 13), min=string.sub(s, 15, 16), sec=string.sub(s, 18, 19)})
+				print("DEBUG - oldHeure : "..oldHeure.." -> newHeure : "..newHeure)
+                                print("DEBUG - lastUpdate : "..updateTime.." -> currentTime : "..currentTime)
+                                 if newHeure > oldHeure then
+					local tempsOn = (newHeure - oldHeure) * 3600
+					local diffTime = (os.difftime(currentTime,updateTime))
+					commandArray['Variable:Chaudiere - NbrHeureBruleur1']= tostring(newHeure)
+                                        return (tempsOn*100/diffTime)
+                                else
+                                        return 0
+                                end -- end if
+                        end -- end function
+                }
+        },
 }
 
 commandArray = {}
@@ -181,8 +205,8 @@ local nbrLots = math.ceil(nbrDevices / nbrMAJ)
 local i_min = ( minutes % nbrLots ) * nbrMAJ + 1
 local i_max = i_min + nbrMAJ - 1
 
--- i_min = 5
--- i_max = 6
+ i_min = 14
+ i_max = 14
 
 for i, device in pairs(devices) do
 	if(i >= i_min and i <= i_max) then
