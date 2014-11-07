@@ -121,6 +121,27 @@
 			 <error>05 05</error>
 			 <description>Statut de la pompe d'alimentation de l'eau chaude sanitaire</description>
 		</command>
+                <command name='getStatutBruleur' protocmd='getaddr'>
+                         <addr>551E</addr>
+                         <len>1</len>
+                         <unit>ST</unit>
+                         <error>05 05</error>
+                         <description>Non valide - Statut du brûleur</description>
+                </command>
+                <command name='getStatutBruleur1' protocmd='getaddr'>
+                         <addr>0842</addr>
+                         <len>1</len>
+                         <unit>RT</unit>
+                         <error>05 05</error>
+                         <description>A confirmer - Statut du brûleur 1</description>
+                </command>
+                <command name='getStatutBruleur2' protocmd='getaddr'>
+                         <addr>0849</addr>
+                         <len>1</len>
+                         <unit>RT</unit>
+                         <error>05 05</error>
+                         <description>Non valide - Statut du brûleur 2</description>
+                </command>
 		<command name='getStatutCircuECS' protocmd='getaddr'>
 			 <addr>0845</addr>
 			 <len>1</len>
@@ -142,12 +163,12 @@
 			 <error>05 05</error>
 			 <description>Température des gaz d'échappement en degrés Celsius</description>
 		</command>
-		<command name='getTemp17A' protocmd='getaddr'>
+		<command name='getTempRetour' protocmd='getaddr'>
 			 <addr>080A</addr>
 			 <len>2</len>
 			 <unit>UT</unit>
 			 <error>05 05</error>
-			 <description>Température 17A en degrés Celsius</description>
+			 <description>Non valide - Température de retour en degrés Celsius</description>
 		</command>
 		<command name='getTempChaudiere' protocmd='getaddr'>
 			 <addr>0810</addr>
