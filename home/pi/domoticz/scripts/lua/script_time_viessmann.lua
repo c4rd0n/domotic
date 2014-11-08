@@ -15,6 +15,7 @@
 -- List all otherdevices svalues for debugging: 
 --   for i, v in pairs(otherdevices_svalues) do print("index : "..i.."; valeur : ".. v) end
 
+-- getValeur va chercher la valeur retournée par la commande "nom"
 local function getValeur(nom)
 	local handle = io.popen("vclient -h localhost:3002 -c "..nom.."  | sed -n '2p' | cut -d ' ' -f 1")
 	local num = handle:read("*a")
@@ -22,6 +23,7 @@ local function getValeur(nom)
 	return (num:gsub("%s+", ""))
 end -- end getValeur
 
+-- Obsolète : getNumber fait comme getValeur.
 local function getNumber(nom)
 	local handle = io.popen("vclient -h localhost:3002 -c "..nom.." | cut -d ' ' -f 1 | grep -E ^[0-9]+\\.?[0-9]*$")
 	local num = handle:read("*a")
@@ -29,6 +31,7 @@ local function getNumber(nom)
 	return (num:gsub("%s+", ""))
 end -- end getNumber
 
+-- retourne la valeur du device passée en paramètre
 local function getDeviceValue(value)
 	if (type(value)=="table") then
 		if (value.param ~= nil and value.param ~= "") then
@@ -40,6 +43,38 @@ local function getDeviceValue(value)
 		return value
 	end -- end if
 end -- end getDeviceValue
+
+-- Calcule le taux d'activation d'un brûleur
+local function getTauxBruleur(param)
+	local commandeVControl = param[1]
+	local UVnbrHeure = param[2]
+	local UVnbrHeureLastCheck = param[3]
+	local newHeure = tonumber(getValeur(commandeVControl))
+	local oldHeure = tonumber(uservariables[UVnbrHeure])
+        local updateTime = tonumber(uservariables[UVnbrHeureLastCheck])
+        local currentTime = os.time()
+        print("DEBUG - oldHeure : "..oldHeure.." -> newHeure : "..newHeure)
+        -- print("DEBUG - lastUpdate : "..updateTime.." -> currentTime : "..currentTime)
+        commandArray["Variable:"..UVnbrHeureLastCheck] = tostring(currentTime)
+        if newHeure > oldHeure then
+	        -- Le brûleur a été actif depuis la dernière mise à jour
+                local tempsOn = (newHeure - oldHeure) * 3600
+                local diffTime = (os.difftime(currentTime,updateTime))
+                commandArray["Variable:"..UVnbrHeure]= tostring(newHeure)
+                local pourcentage = (tempsOn*100/diffTime)
+                -- plafonnement du pourcentage pour éviter des valeur hors norme
+                if pourcentage > 100 then
+        	        print ("Pourcentage calculé erroné : "..pourcentage)
+                        pourcentage = 100
+                elseif pourcentage < 0 then
+                        print ("Pourcentage calculé erroné : "..pourcentage)
+                        pourcentage = 0
+                end -- end if
+                return pourcentage
+	else
+                return 0
+        end -- end if
+end -- end getTauxBruleur
 
 local minutes = tonumber(os.time()/60)
 local nbrMAJ = 4
@@ -177,25 +212,19 @@ local devices = {
                 ["name"] = "Chaudière - Brûleur 1",
 		["nvalue"] = 0,
                 ["svalue"] = {
-                        ["fonction"] = function()
-				local currentTime = os.time()
-                                local newHeure = tonumber(getValeur("getBruleur1Heure"))
-				local oldHeure = tonumber(uservariables["Chaudiere - NbrHeureBruleur1"])
-				local s = otherdevices_lastupdate["Chaudière - Brûleur 1"]
-				local updateTime = os.time({year=string.sub(s, 1, 4), month=string.sub(s, 6, 7), day=string.sub(s, 9, 10), hour=string.sub(s, 12, 13), min=string.sub(s, 15, 16), sec=string.sub(s, 18, 19)})
-				print("DEBUG - oldHeure : "..oldHeure.." -> newHeure : "..newHeure)
-                                print("DEBUG - lastUpdate : "..updateTime.." -> currentTime : "..currentTime)
-                                 if newHeure > oldHeure then
-					local tempsOn = (newHeure - oldHeure) * 3600
-					local diffTime = (os.difftime(currentTime,updateTime))
-					commandArray['Variable:Chaudiere - NbrHeureBruleur1']= tostring(newHeure)
-                                        return (tempsOn*100/diffTime)
-                                else
-                                        return 0
-                                end -- end if
-                        end -- end function
+                        ["fonction"] = getTauxBruleur,
+			["param"] = {"getBruleur1Heure","Chaudiere - NbrHeureBruleur1","Chaudiere - NbrHeureBruleur1LastCheck"}
                 }
         },
+        {
+                ["deviceId"] = 30,
+                ["name"] = "Chaudière - Brûleur 2",
+                ["nvalue"] = 0,
+                ["svalue"] = {
+                        ["fonction"] = getTauxBruleur,
+                        ["param"] = {"getBruleur2Heure","Chaudiere - NbrHeureBruleur2","Chaudiere - NbrHeureBruleur2LastCheck"}
+                }
+        }
 }
 
 commandArray = {}
@@ -205,8 +234,9 @@ local nbrLots = math.ceil(nbrDevices / nbrMAJ)
 local i_min = ( minutes % nbrLots ) * nbrMAJ + 1
 local i_max = i_min + nbrMAJ - 1
 
- i_min = 14
- i_max = 14
+-- Pour imposer la mise à jour d'un device précis :
+-- i_min = 13
+-- i_max = 15
 
 for i, device in pairs(devices) do
 	if(i >= i_min and i <= i_max) then
