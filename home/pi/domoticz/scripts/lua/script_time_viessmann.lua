@@ -56,13 +56,13 @@ local function getTauxBruleur(param)
         print("DEBUG - oldHeure : "..oldHeure.." -> newHeure : "..newHeure)
         -- print("DEBUG - lastUpdate : "..updateTime.." -> currentTime : "..currentTime)
         commandArray["Variable:"..UVnbrHeureLastCheck] = tostring(currentTime)
-        if newHeure > oldHeure then
+        if newHeure != oldHeure then
 	        -- Le brûleur a été actif depuis la dernière mise à jour
                 local tempsOn = (newHeure - oldHeure) * 3600
                 local diffTime = (os.difftime(currentTime,updateTime))
                 commandArray["Variable:"..UVnbrHeure]= tostring(newHeure)
                 local pourcentage = (tempsOn*100/diffTime)
-                -- plafonnement du pourcentage pour éviter des valeur hors norme
+                -- plafonnement du pourcentage pour éviter des valeurs hors norme
                 if pourcentage > 100 then
         	        print ("Pourcentage calculé erroné : "..pourcentage)
                         pourcentage = 100
