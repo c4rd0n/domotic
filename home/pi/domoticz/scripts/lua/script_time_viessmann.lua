@@ -53,10 +53,10 @@ local function getTauxBruleur(param)
 	local oldHeure = tonumber(uservariables[UVnbrHeure])
         local updateTime = tonumber(uservariables[UVnbrHeureLastCheck])
         local currentTime = os.time()
-        print("DEBUG - oldHeure : "..oldHeure.." -> newHeure : "..newHeure)
+        -- print("DEBUG - oldHeure : "..oldHeure.." -> newHeure : "..newHeure)
         -- print("DEBUG - lastUpdate : "..updateTime.." -> currentTime : "..currentTime)
         commandArray["Variable:"..UVnbrHeureLastCheck] = tostring(currentTime)
-        if newHeure != oldHeure then
+        if newHeure ~= oldHeure then
 	        -- Le brûleur a été actif depuis la dernière mise à jour
                 local tempsOn = (newHeure - oldHeure) * 3600
                 local diffTime = (os.difftime(currentTime,updateTime))
