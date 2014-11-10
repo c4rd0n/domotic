@@ -46,9 +46,9 @@ end -- end getDeviceValue
 
 -- Calcule le taux d'activation d'un brûleur
 local function getTauxBruleur(param)
-	local commandeVControl = param[1]
-	local UVnbrHeure = param[2]
-	local UVnbrHeureLastCheck = param[3]
+	local commandeVControl = param[1] -- commande d'interrogation de la chaudière
+	local UVnbrHeure = param[2] -- Nom de la variable utilisateur contenant le dernier relevé du nombre d'heure d'activité du brûleur
+	local UVnbrHeureLastCheck = param[3] -- Nom de la variable utilisateur contenant le date du dernier relevé
 	local newHeure = tonumber(getValeur(commandeVControl))
 	local oldHeure = tonumber(uservariables[UVnbrHeure])
         local updateTime = tonumber(uservariables[UVnbrHeureLastCheck])
