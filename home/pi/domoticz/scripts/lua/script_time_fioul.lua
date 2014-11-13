@@ -28,6 +28,7 @@ end
 function fuelUsed(burnerName,fuelpersecond)
     -- Calculate time since boiler was switch on
    difference = timedifference(otherdevices_lastupdate[burnerName])
+   print(tostring(fuelpersecond * difference * tonumber(string.match(otherdevices_svalues[fueldisplay], "%d+%.*%d*")) / 100))
     -- Calculate amount of fuel used in this boiler burn
    return (fuelpersecond * difference * tonumber(string.match(otherdevices_svalues[fueldisplay], "%d+%.*%d*")) / 100)
 end

@@ -182,13 +182,14 @@ local devices = {
         {
                 ["deviceId"] = 27,
                 ["name"] = "Chaudière - Eau Chaude Sanitaire",
-                ["value"] = {
+                ["svalue"] = 0,
+                ["nvalue"] = {
                         ["fonction"] = function ()
 			        local mode = tonumber(getValeur("getModeCC2"))
 			        if mode == 1 or mode == 2 then
-			                return "On"
+			                return 1
 			        else
-			                return "Off"
+			                return 0
 			        end -- end if
 			end -- end getECSStatut
                 }
@@ -196,13 +197,14 @@ local devices = {
         {
                 ["deviceId"] = 28,
 		["name"] = "Chaudière - Chauffage",
-                ["value"] = {
+                ["svalue"] = 0,
+                ["nvalue"] = {
                         ["fonction"] = function()
 				local mode = tonumber(getValeur("getModeCC2"))
 			        if mode > 1 then
-			                return "On"
+			                return 1
 			        else
-			                return "Off"
+			                return 0
 			        end -- end if
 			end -- end function
                 }
@@ -235,13 +237,14 @@ local i_min = ( minutes % nbrLots ) * nbrMAJ + 1
 local i_max = i_min + nbrMAJ - 1
 
 -- Pour imposer la mise à jour d'un device précis :
--- i_min = 13
--- i_max = 15
+ i_min = 12
+ i_max = 13
 
 for i, device in pairs(devices) do
 	if(i >= i_min and i <= i_max) then
 		if (device.deviceId~=nil and device.nvalue~=nil and device.svalue~=nil) then
 			print("Mise à jour du device "..device.deviceId)
+			print ("DEBUG - commandArray[i]={[\"UpdateDevice\"] = "..device.deviceId.."|"..getDeviceValue(device.nvalue).."|"..getDeviceValue(device.svalue).."}")
 			commandArray[i]={["UpdateDevice"] = device.deviceId.."|"..getDeviceValue(device.nvalue).."|"..getDeviceValue(device.svalue)}
 		elseif (device.name~=nil and device.value~=nil) then
                         print("Mise à jour du device "..device.name)
@@ -249,6 +252,7 @@ for i, device in pairs(devices) do
 			if (otherdevices[device.name]~=value) then -- On ne met à jour le device que si nécessaire
 				-- print("DEBUG - commandArray["..device.name.."] = "..value)
 				commandArray[device.name] = value
+				
 			end -- end if
 		end -- end if
 	end -- end if
