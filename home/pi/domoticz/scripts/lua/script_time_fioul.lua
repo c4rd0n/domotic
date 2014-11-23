@@ -27,7 +27,7 @@ end
 
 function fuelUsed(burnerName,fuelpersecond,difference)
    -- Calculate amount of fuel used in this boiler burn
-   local pourcentageBruleur =  tonumber(string.match(otherdevices_svalues[burnerName], "%d+%.*%d*")
+   local pourcentageBruleur =  tonumber(string.match(otherdevices_svalues[burnerName], "%d+%.*%d*"))
    local conso = (fuelpersecond * difference * pourcentageBruleur / 100)
    if conso > 0 then
 	print("Le brûleur '"..burneurName.."' a consommé "..tostring(conso).." L durant les '"..difference.."' dernière secondes en tournant à "..pourcentageBruleur.."%.")
