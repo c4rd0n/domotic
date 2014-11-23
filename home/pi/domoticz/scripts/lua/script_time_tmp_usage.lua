@@ -23,7 +23,7 @@
 -- List all otherdevices svalues for debugging:
 -- for i, v in pairs(otherdevices_svalues) do print(i, v) end
 
-print('Exécution du script script_time_tmp_usage.lua')
+-- print('Exécution du script script_time_tmp_usage.lua')
 
 local handle = io.popen("df | grep '/var/tmp' | sed -e 's/.*\\s\\([0-9]\\+\\)%.*/\\1/'")
 local pourcentage = handle:read("*a")

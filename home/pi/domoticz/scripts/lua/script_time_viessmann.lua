@@ -237,17 +237,17 @@ local i_min = ( minutes % nbrLots ) * nbrMAJ + 1
 local i_max = i_min + nbrMAJ - 1
 
 -- Pour imposer la mise à jour d'un device précis :
- i_min = 12
- i_max = 13
+-- i_min = 12
+-- i_max = 13
 
 for i, device in pairs(devices) do
 	if(i >= i_min and i <= i_max) then
 		if (device.deviceId~=nil and device.nvalue~=nil and device.svalue~=nil) then
-			print("Mise à jour du device "..device.deviceId)
-			print ("DEBUG - commandArray[i]={[\"UpdateDevice\"] = "..device.deviceId.."|"..getDeviceValue(device.nvalue).."|"..getDeviceValue(device.svalue).."}")
+			-- print("Mise à jour du device "..device.deviceId)
+			-- print ("DEBUG - commandArray[i]={[\"UpdateDevice\"] = "..device.deviceId.."|"..getDeviceValue(device.nvalue).."|"..getDeviceValue(device.svalue).."}")
 			commandArray[i]={["UpdateDevice"] = device.deviceId.."|"..getDeviceValue(device.nvalue).."|"..getDeviceValue(device.svalue)}
 		elseif (device.name~=nil and device.value~=nil) then
-                        print("Mise à jour du device "..device.name)
+                        -- print("Mise à jour du device "..device.name)
 			local value = getDeviceValue(device.value)
 			if (otherdevices[device.name]~=value) then -- On ne met à jour le device que si nécessaire
 				-- print("DEBUG - commandArray["..device.name.."] = "..value)
