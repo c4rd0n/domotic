@@ -214,5 +214,11 @@
 			 <unit>TI</unit>
 			 <description>Date system de la chaudière</description>
 		</command>
+                <command name='getTempConsigne' protocmd='getaddr'>
+                         <addr>555A</addr>
+                         <len>2</len>
+                         <unit>UT</unit>
+                         <description>A confirmer - Température de consigne</description>
+                </command>
 	</commands>
 </vito>
