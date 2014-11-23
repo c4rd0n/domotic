@@ -10,7 +10,7 @@ burner2 = "Chaudière - Brûleur 2"
 fuelpersecond = 5.67 / 3600.0
 -- Provide name and id of virtual RFXmeter counter to display total fuel usage
 fueldisplay = "Chaudière - Consommation Fioul"
-fueldisplayid = 256
+fueldisplayid = 31
 
 function timedifference(s)
    year = string.sub(s, 1, 4)
@@ -25,21 +25,29 @@ function timedifference(s)
    return difference
 end
 
-function fuelUsed(burnerName,fuelpersecond)
-    -- Calculate time since boiler was switch on
-   difference = timedifference(otherdevices_lastupdate[burnerName])
-   print(tostring(fuelpersecond * difference * tonumber(string.match(otherdevices_svalues[fueldisplay], "%d+%.*%d*")) / 100))
-    -- Calculate amount of fuel used in this boiler burn
-   return (fuelpersecond * difference * tonumber(string.match(otherdevices_svalues[fueldisplay], "%d+%.*%d*")) / 100)
+function fuelUsed(burnerName,fuelpersecond,difference)
+   -- Calculate amount of fuel used in this boiler burn
+   local pourcentageBruleur =  tonumber(string.match(otherdevices_svalues[burnerName], "%d+%.*%d*")
+   local conso = (fuelpersecond * difference * pourcentageBruleur / 100)
+   if conso > 0 then
+	print("Le brûleur '"..burneurName.."' a consommé "..tostring(conso).." L durant les '"..difference.."' dernière secondes en tournant à "..pourcentageBruleur.."%.")
+   end
+   return conso
 end
 
 commandArray = {}
 
 -- Retrieve previous total fuel used from meter
 fueltotal = tonumber(string.match(otherdevices_svalues[fueldisplay], "%d+%.*%d*"))
+-- Calculate time since last update
+difference = timedifference(otherdevices_lastupdate[fueldisplay])
+-- print("Temps depuis le dernier calcul de consommation "..fueldisplay.." : "..difference.." s ")
 -- Add previous amount of fuel used to this burn amount
-fueltotal = fueltotal + fuelUsed(burner1,fuelpersecond) + fuelUsed(burner2,fuelpersecond)
--- Return new cumulative burn amount to meter
-commandArray['UpdateDevice'] = fueldisplayid .. "|0|" .. fueltotal
+local conso = fuelUsed(burner1,fuelpersecond,difference) + fuelUsed(burner2,fuelpersecond,difference)
+if conso > 0 then
+	fueltotal = fueltotal + conso
+	-- Return new cumulative burn amount to meter
+	commandArray['UpdateDevice'] = fueldisplayid .. "|0|" .. fueltotal
+end
 
 return commandArray
