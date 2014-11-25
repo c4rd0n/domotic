@@ -15,6 +15,8 @@
 -- List all otherdevices svalues for debugging: 
 --   for i, v in pairs(otherdevices_svalues) do print("index : "..i.."; valeur : ".. v) end
 
+commandArray = {}
+
 -- getValeur va chercher la valeur retournée par la commande "nom"
 local function getValeur(nom)
 	local handle = io.popen("vclient -h localhost:3002 -c "..nom.."  | sed -n '2p' | cut -d ' ' -f 1")
@@ -59,22 +61,42 @@ local function getTauxBruleur(param)
         if newHeure ~= oldHeure then
 	        -- Le brûleur a été actif depuis la dernière mise à jour
                 local tempsOn = (newHeure - oldHeure) * 3600
-                local diffTime = (os.difftime(currentTime,updateTime))
                 commandArray["Variable:"..UVnbrHeure]= tostring(newHeure)
+		local diffTime = (os.difftime(currentTime,updateTime))
                 local pourcentage = (tempsOn*100/diffTime)
                 -- plafonnement du pourcentage pour éviter des valeurs hors norme
                 if pourcentage > 100 then
         	        print ("Pourcentage calculé erroné : "..pourcentage)
                         pourcentage = 100
+			tempsOn = diffTime
                 elseif pourcentage < 0 then
                         print ("Pourcentage calculé erroné : "..pourcentage)
                         pourcentage = 0
+			tempsOn = 0
                 end -- end if
+		 setConsommation(tempsOn)
                 return pourcentage
 	else
                 return 0
         end -- end if
 end -- end getTauxBruleur
+
+function setConsommation(tempsDeCombustion)
+	if tempsDeCombustion > 0 then
+		local fuelpersecond = 5.67 / 3600.0 -- Consommation instannée d'un brûleur actif en L/s
+		local fueldisplay = "Chaudière - Consommation Fioul" -- Nom du compteur virtuel de la consommation de fioul
+		local fueldisplayid = 31 -- Id du compteur virtuel de la consommation de fioul
+		-- Chargement de la valeur du fioul déjà consommé
+		local fuelConsomme = tonumber(string.match(otherdevices_svalues[fueldisplay], "%d+%.*%d*"))
+		-- Calcule de la consommation de fioul
+		local conso = (fuelpersecond * tempsDeCombustion)
+		-- Ajout du fioul consommé en fonction des paramètres d'entrée
+		fuelConsomme = fuelConsomme + conso
+		-- Mise à jour du compteur
+		print("Consommation de "..conso.."L de fioul")
+		commandArray['UpdateDevice'] = fueldisplayid .. "|0|" .. fuelConsomme
+	end -- end if
+end -- end setConsommation
 
 local minutes = tonumber(os.time()/60)
 local nbrMAJ = 4
@@ -229,16 +251,14 @@ local devices = {
         }
 }
 
-commandArray = {}
-
 local nbrDevices = #devices
 local nbrLots = math.ceil(nbrDevices / nbrMAJ)
 local i_min = ( minutes % nbrLots ) * nbrMAJ + 1
 local i_max = i_min + nbrMAJ - 1
 
 -- Pour imposer la mise à jour d'un device précis :
--- i_min = 12
--- i_max = 13
+-- i_min = 14
+-- i_max = 15
 
 for i, device in pairs(devices) do
 	if(i >= i_min and i <= i_max) then
