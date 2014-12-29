@@ -25,14 +25,6 @@ local function getValeur(nom)
 	return (num:gsub("%s+", ""))
 end -- end getValeur
 
--- Obsolète : getNumber fait comme getValeur.
-local function getNumber(nom)
-	local handle = io.popen("vclient -h localhost:3002 -c "..nom.." | cut -d ' ' -f 1 | grep -E ^[0-9]+\\.?[0-9]*$")
-	local num = handle:read("*a")
-	handle:close()
-	return (num:gsub("%s+", ""))
-end -- end getNumber
-
 -- retourne la valeur du device passée en paramètre
 local function getDeviceValue(value)
 	if (type(value)=="table") then
@@ -105,7 +97,7 @@ local devices = {
 		["deviceId"] = 7,
 		["nvalue"] = 0,
 		["svalue"] = {
-			["fonction"] = getNumber,
+			["fonction"] = getValeur,
 			["param"] = "getTempExt"
 		}
 	},
@@ -113,7 +105,7 @@ local devices = {
                 ["deviceId"] = 8,
                 ["nvalue"] = 0,
                 ["svalue"] = {
-                        ["fonction"] = getNumber,
+                        ["fonction"] = getValeur,
                         ["param"] = "getTempIntCC2"
                 }
         },
@@ -121,14 +113,14 @@ local devices = {
                 ["deviceId"] = 21,
                 ["nvalue"] = 0,
                 ["svalue"] = {
-                        ["fonction"] = getNumber,
+                        ["fonction"] = getValeur,
                         ["param"] = "getTempDepCC2"
                 }
         },
         {
                 ["deviceId"] = 18,
                 ["nvalue"] = {
-                        ["fonction"] = getNumber,
+                        ["fonction"] = getValeur,
                         ["param"] = "getStatutPompeECS"
                 },
                 ["svalue"] = 0
