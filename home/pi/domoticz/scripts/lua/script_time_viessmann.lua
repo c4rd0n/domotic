@@ -75,7 +75,7 @@ end -- end getTauxBruleur
 
 function setConsommation(tempsDeCombustion)
 	if tempsDeCombustion > 0 then
-		local fuelpersecond = 5.67 / 3600.0 -- Consommation instannée d'un brûleur actif en L/s
+		local fuelpersecond = tonumber(uservariables["Chaudiere - litresParHeure"]) / 3600.0 -- Consommation instannée d'un brûleur actif en L/s
 		local fueldisplay = "Chaudière - Consommation Fioul" -- Nom du compteur virtuel de la consommation de fioul
 		local fueldisplayid = 31 -- Id du compteur virtuel de la consommation de fioul
 		-- Chargement de la valeur du fioul déjà consommé
