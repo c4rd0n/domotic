@@ -49,6 +49,12 @@
           <type>uchar</type>
           <entity>Grad Celsius</entity>
         </unit>
+	<unit name='Temperature Short'>
+          <abbrev>TS</abbrev>
+          <calc get='V' set='V'/>
+          <type>char</type>
+          <entity>Degrees Celsius</entity>
+	</unit>
 	<unit name='Status'>
 	   <abbrev>ST</abbrev>
 	   <calc get='V' set='V'/>
@@ -87,9 +93,28 @@
 	   <abbrev>RT</abbrev>
 	   <type>enum</type>
 	   <enum bytes='00' text='0'/>
-	   <enum bytes='01' text='1'/>
+           <enum bytes='01' text='1'/>
 	   <enum text='NOT OK'/>
 	</unit>
+        <unit name='GetOperatingMode'>
+           <abbrev>COM</abbrev>
+           <type>enum</type>
+           <enum bytes='00' text='STB'/>
+           <enum bytes='01' text='REDUCE'/>
+           <enum bytes='02' text='NORMAL'/>
+           <enum bytes='03' text='PERMNORM'/>
+           <enum text='UNKNOWN'/>
+        </unit>
+        <unit name='SetOperatingMode'>
+           <abbrev>SOM</abbrev>
+           <type>enum</type>
+           <enum bytes='00' text='STB'/>
+           <enum bytes='01' text='DHW'/>
+           <enum bytes='02' text='DHW_HOT'/>
+           <enum bytes='03' text='REDUCE'/>
+           <enum bytes='04' text='NORMAL'/>
+           <enum text='UNKNOWN'/>
+        </unit>
 	<unit name='BetriebsArt'>
 	   <abbrev>BA</abbrev>
 	   <type>enum</type>
